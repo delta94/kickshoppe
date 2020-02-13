@@ -1,128 +1,93 @@
-/**
- *
- * Home
- *
- */
-
-import React, { Suspense } from 'react';
-import styled from 'styled-components';
-import { Row, Button } from 'antd';
-import { useSpring, animated } from 'react-spring';
+import React from 'react';
+import { Row, Card } from 'antd';
 import { Title, Subtitle } from 'app/components/Typography';
-import FullPageLoader from 'app/components/Loaders/FullPageLoader';
-import Spacing from 'app/components/Spacing';
-import Col from 'app/components/Col';
-import { slideTypes } from './enumerations';
+import { useSpring, animated } from 'react-spring';
+import { useLazyQuery } from '@apollo/react-hooks';
+import styled from 'styled-components';
 
-const Login = React.lazy(() => import('app/containers/Login'));
-const Register = React.lazy(() => import('app/containers/Register'));
+import FullPageLoader from 'app/components/Loaders/FullPageLoader';
+import Container from 'app/components/Container';
+import Col from 'app/components/Col';
+import Spacing from 'app/components/Spacing';
+import ProductPagination from 'app/containers/ProductPagination';
+import { GET_PRODUCT_PAGINATION } from 'app/containers/ProductPagination/gql';
+
+import bgImg from 'resources/img/kick-bg.png';
+
+const { Meta } = Card;
+
+interface Props {}
 
 const HomeContainer = styled.div`
+  position: relative;
   height: 100vh;
   width: 100vw;
 `;
 
-const HoverContainer = styled(animated.div)`
-  background: linear-gradient(-255deg, #ad5389, #3c1053);
-  box-shadow: 0px 0px 10px 10px rgba(0, 0, 0, 0.2);
+const HeroContainer = styled.div`
+  position: relative;
+  height: 45vh;
+  width: 100%;
+  padding-top: 2rem;
   display: flex;
   justify-content: center;
   align-items: center;
-  position: fixed;
-  text-align: center;
-  height: 100%;
-  width: 50%;
-  z-index: 99;
-  padding: 5rem;
-  color: #ffffff;
 `;
 
-export const Home: React.FC = () => {
-  const [slideState, setSlideState] = React.useState<string>(slideTypes.signup);
+const HeroTitle = styled(animated.div)`
+  position: absolute;
+  font-size: 80px;
+  bottom: -7rem;
+`;
 
-  const slideStyles: any = {
-    [slideTypes.login]: {
+const BgKick = styled(animated.img)`
+  height: 100%;
+  transform: rotateX(30deg);
+`;
+
+const ProductSectionContainer = styled.div`
+  padding-top: 10rem;
+`;
+
+const Home: React.FC<Props> = () => {
+  const HeroSection = () => {
+    const bgStyle = useSpring({
       from: {
-        right: '50%',
-        background: 'linear-gradient(-255deg, #ad5389, #3c1053)',
+        opacity: 0,
+        transform: 'scale(0.8)',
       },
       to: {
-        right: '0%',
-        background: 'linear-gradient(-255deg, #3c1053, #ad5389)',
+        opacity: 1,
+        transform: 'scale(1)',
       },
-    },
-    [slideTypes.signup]: {
+      config: { duration: 500 },
+    });
+
+    const titleStyle = useSpring({
       from: {
-        right: '0%',
-        background: 'linear-gradient(-255deg, #3c1053, #ad5389)',
+        opacity: 0,
       },
       to: {
-        right: '50%',
-        background: 'linear-gradient(-255deg, #ad5389, #3c1053)',
+        opacity: 1,
       },
-    },
+      config: { duration: 500 },
+    });
+
+    return (
+      <HeroContainer>
+        <BgKick style={bgStyle} src={bgImg} alt="hero-img" />
+        <HeroTitle style={titleStyle}>KickShoppe</HeroTitle>
+      </HeroContainer>
+    );
   };
 
-  const hoverStyle = useSpring({
-    from: slideStyles[slideState].from,
-    to: slideStyles[slideState].to,
-  });
-
-  const loginStyle = useSpring({
-    from: {
-      opacity: 0,
-    },
-    to: {
-      opacity: slideState === slideTypes.login ? 1 : 0,
-    },
-  });
-
-  const signupStyle = useSpring({
-    from: {
-      opacity: 0,
-    },
-    to: {
-      opacity: slideState === slideTypes.signup ? 1 : 0,
-    },
-  });
-
   return (
-    <Suspense fallback={<FullPageLoader />}>
-      <HoverContainer style={hoverStyle}>
-        {slideState === slideTypes.login && (
-          <div>
-            <Title>Don't have an account yet?</Title>
-            <Subtitle>Start creating yours right away!</Subtitle>
-            <Spacing margin="16px 0 0 0">
-              <Button size="large" onClick={() => setSlideState(slideTypes.signup)}>
-                SIGN UP
-              </Button>
-            </Spacing>
-          </div>
-        )}
-        {slideState === slideTypes.signup && (
-          <div>
-            <Title>Already Signed up?</Title>
-            <Subtitle>Go ahead and log in instead to continue building cool stuff!</Subtitle>
-            <Spacing margin="16px 0 0 0">
-              <Button size="large" onClick={() => setSlideState(slideTypes.login)}>
-                LOG IN
-              </Button>
-            </Spacing>
-          </div>
-        )}
-      </HoverContainer>
-      <HomeContainer>
-        <Row type="flex" justify="center" align="middle">
-          <Col style={loginStyle} span={12}>
-            <Login />
-          </Col>
-          <Col style={signupStyle} span={12}>
-            <Register />
-          </Col>
-        </Row>
-      </HomeContainer>
-    </Suspense>
+    <HomeContainer>
+      <HeroSection />
+      <Container>
+        <ProductPagination />
+      </Container>
+    </HomeContainer>
   );
 };
 

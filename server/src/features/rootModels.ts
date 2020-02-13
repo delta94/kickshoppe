@@ -1,9 +1,9 @@
-import { Todos } from './todos/model';
 import { UsersModel } from './users/model';
+import { ProductsModel } from './products/model';
 /* CODE-GENERATOR - ROOTMODELS IMPORT */
 
 export default {
-  Todos,
   UsersModel,
+  ProductsModel,
   /* CODE-GENERATOR - ROOTMODELS DEFAULT */
 };

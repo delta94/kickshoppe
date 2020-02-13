@@ -4,7 +4,8 @@
  */
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter } from 'react-router-dom';
+import { BrowserRouter, Route } from 'react-router-dom';
+import { QueryParamProvider } from 'use-query-params';
 import { ThemeProvider } from 'styled-components';
 import { ApolloProvider } from 'react-apollo';
 import { client } from 'apollo';
@@ -15,9 +16,11 @@ import App from 'app/containers/App';
 ReactDOM.render(
   <ApolloProvider client={client}>
     <BrowserRouter>
-      <ThemeProvider theme={theme}>
-        <App />
-      </ThemeProvider>
+      <QueryParamProvider ReactRouterRoute={Route}>
+        <ThemeProvider theme={theme}>
+          <App />
+        </ThemeProvider>
+      </QueryParamProvider>
     </BrowserRouter>
   </ApolloProvider>,
   document.getElementById('root')
