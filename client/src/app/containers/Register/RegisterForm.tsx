@@ -15,7 +15,7 @@ import useAuthUser from 'hooks/useAuthUser';
 const { Search } = Input;
 
 const RegisterForm = () => {
-  const { setAuthUser } = useAuthUser();
+  const { setAuthUserToken: setAuthUser } = useAuthUser();
   const [userNameIsAvailable, setUserNameIsAvailable] = React.useState<boolean>(false);
   const [autoComplete, { data: autoCompleteData, loading: isAutoCompleting }] = useLazyQuery(
     USER_NAME_AUTOCOMPLETE

@@ -8,9 +8,9 @@ import React from 'react';
 import { Button } from 'antd';
 import { GoogleLogin } from 'react-google-login';
 import { useMutation } from '@apollo/react-hooks';
-import useAuthUser from 'hooks/useAuthUser';
 import { GOOGLE_AUTH } from './gql';
 import { GOOGLE_CLIENT_ID } from 'constants/index';
+import useAuthUser from 'hooks/useAuthUser';
 import styled from 'styled-components';
 
 const GoogleButton = styled(Button)`
@@ -30,8 +30,12 @@ const GoogleButton = styled(Button)`
   }
 `;
 
-export const GoogleAuthButton: React.FC = ({ children }) => {
-  const { setAuthUser } = useAuthUser();
+interface IGoogleAuthButton {
+  onSuccess?: ({ accessToken, ok }: { accessToken: string; ok: boolean }) => void;
+}
+
+export const GoogleAuthButton: React.FC<IGoogleAuthButton> = ({ children, onSuccess }) => {
+  const { setAuthUserToken: setAuthUser } = useAuthUser();
   const [isLoading, setIsLoading] = React.useState(false);
   const [googleAuth, { error, data }] = useMutation(GOOGLE_AUTH);
 
@@ -50,13 +54,19 @@ export const GoogleAuthButton: React.FC = ({ children }) => {
   }, [error]);
 
   const handleOnSuccess = async (response: any) => {
-    const { accessToken } = response;
+    const accessToken: string = (response && response.accessToken) || '';
 
-    googleAuth({
-      variables: {
-        accessToken,
-      },
-    });
+    if (accessToken) {
+      googleAuth({
+        variables: {
+          accessToken,
+        },
+      });
+
+      if (onSuccess) {
+        onSuccess({ accessToken, ok: true });
+      }
+    }
   };
 
   const handleOnFailure = (response: any) => {

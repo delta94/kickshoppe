@@ -1,31 +1,27 @@
 import { URL } from 'url';
+import fs from 'fs';
 import request from 'request-promise';
+import { headers } from 'constants/request';
 
 const searchProducts = async (
   query: string,
-  options?: { limit?: number; dataType?: string; proxy?: string; productCategory?: string }
+  options?: {
+    limit?: number;
+    dataType?: string;
+    proxy?: string;
+    productCategory?: string;
+    page?: number;
+  }
 ) => {
-  const { limit, dataType, proxy, productCategory } = options;
+  const { limit, dataType, proxy, productCategory, page } = options;
   const uri =
     dataType == undefined
-      ? `https://stockx.com/api/browse?productCategory=${productCategory}&_search=${query}`
-      : `https://stockx.com/api/browse?productCategory=${productCategory}&_search=${query}&dataType=${dataType}`;
+      ? `https://stockx.com/api/browse?productCategory=${productCategory}&page=${page}`
+      : `https://stockx.com/api/browse?productCategory=${productCategory}&page=${page}&dataType=${dataType}`;
 
   const requestOptions = {
     uri: uri,
-    headers: {
-      'sec-fetch-mode': 'cors',
-      'accept-language': 'en-US,en;q=0.9',
-      authorization: '',
-      'x-requested-with': 'XMLHttpRequest',
-      appos: 'web',
-      'user-agent':
-        'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.120 Safari/537.36',
-      accept: '*/*',
-      authority: 'stockx.com',
-      'sec-fetch-site': 'same-origin',
-      appversion: '0.1',
-    },
+    headers: headers,
     simple: false,
     resolveWithFullResponse: true,
     proxy: proxy,
@@ -33,21 +29,30 @@ const searchProducts = async (
 
   const res = await request(requestOptions);
   const body = JSON.parse(res.body);
-
   const { Products } = body;
+
+  fs.writeFileSync('scrapedata.json', JSON.stringify(Products));
+
   const target = limit !== undefined ? Products.slice(0, limit) : Products;
   const productArray = target.map((product: any) => {
     const image = new URL(product.media.imageUrl, 'https://stockx.com').href;
 
     return {
-      name: product.title,
+      pid: product.styleId,
+      uuid: product.market.prodsuctUuid,
+      name: product.name,
+      brand: product.brand,
+      title: product.title,
+      desc: product.shortDescription,
+      productCategory: product.productCategory,
+      shoe: product.shoe,
       retail: product.retailPrice,
       releaseDate: product.releaseDate,
-      pid: product.styleId,
-      uuid: product.market.productUuid,
+      colorway: product.color,
       image,
       urlKey: product.urlKey,
       market: product.market,
+      gender: product.gender,
     };
   });
 

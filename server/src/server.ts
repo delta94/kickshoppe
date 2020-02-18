@@ -1,7 +1,7 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import { ApolloServer } from 'apollo-server-express';
-import mongooseConnect from './config/mongoose';
+import mongoDBConnect from './config/mongoDBConnect';
 import corsOptions from './config/corsOptions';
 import rootSchema from './features/rootSchema';
 import rootModels from './features/rootModels';
@@ -34,7 +34,7 @@ const server = new ApolloServer({
 });
 
 // MongoDB connection status
-mongooseConnect();
+mongoDBConnect();
 server.applyMiddleware({ app, cors: corsOptions });
 app.listen({ port: SERVER_PORT }, () =>
   console.log(`🚀 Server ready at http://localhost:${SERVER_PORT}${server.graphqlPath}`)

@@ -14,8 +14,15 @@ export const GET_PRODUCT_PAGINATION = gql`
         _id
         name
         brand
+        title
+        desc
+        productCategory
+        shoe
         retail
+        releaseDate
+        colorway
         image
+        gender
       }
     }
   }

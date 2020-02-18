@@ -5,15 +5,7 @@
  */
 
 import { IResolverMap } from 'interfaces/IResolvers';
-import {
-  ApolloError,
-  toApolloError,
-  SyntaxError,
-  ValidationError,
-  AuthenticationError,
-  ForbiddenError,
-  UserInputError,
-} from 'apollo-server';
+import { ApolloError } from 'apollo-server';
 
 export default <IResolverMap>{
   getProductsById: async (parent, args, { models }, info) => {
@@ -55,7 +47,7 @@ export default <IResolverMap>{
   getProductsLimitPagination: async (parent, { limit, skip, search, brand }, { models }, info) => {
     try {
       const products = await models.ProductsModel.find(
-        { name: new RegExp(search, 'i'), brand: new RegExp(brand) },
+        { name: new RegExp(search, 'i'), brand: new RegExp(brand, 'i') },
         null,
         {
           limit,
@@ -65,7 +57,7 @@ export default <IResolverMap>{
 
       const count = models.ProductsModel.count({
         name: new RegExp(search, 'i'),
-        brand: new RegExp(brand),
+        brand: new RegExp(brand, 'i'),
       });
 
       return {

@@ -1,14 +1,18 @@
-//TODO: improve type schema
-
 const typeDefs = `
     type Product {
       _id: ID
       name: String
       brand: String
+      title: String
+      desc: String
+      productCategory: String
+      shoe: String
       retail: Int
       releaseDate: String
+      colorway: String
       image: String
       urlKey: String
+      gender: String
     }
 
     type AllProducts {

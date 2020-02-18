@@ -4,7 +4,7 @@ import { withClientState } from 'apollo-link-state';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { HttpLink } from 'apollo-link-http';
 import { onError } from 'apollo-link-error';
-import state from './state';
+import state from './state/index';
 
 const SERVER_URL = process.env.REACT_APP_SERVER_URL;
 const cache = new InMemoryCache({});
@@ -40,17 +40,19 @@ export const requestLink = new ApolloLink(
     })
 );
 
+const stateLink = withClientState(state(cache));
+
 const link = ApolloLink.from([
   onError(({ graphQLErrors, networkError }) => {
     if (graphQLErrors) {
-      console.log('[graphQLErrors]', graphQLErrors);
+      console.error('[graphQLErrors]', graphQLErrors);
     }
     if (networkError) {
-      console.log('[networkError]', networkError);
+      console.error('[networkError]', networkError);
     }
   }),
   requestLink,
-  withClientState(state(cache)),
+  stateLink,
   new HttpLink({
     uri: SERVER_URL,
     // For server with different domain use "include"

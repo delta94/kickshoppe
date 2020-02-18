@@ -17,48 +17,40 @@ const stockXPassword = process.env.STOCKX_PASSWORD;
 
 export default <IResolverMap>{
   scrape: async (parent, args, { models }, info) => {
-    console.log(models);
     const { ProductsModel } = models;
+
+    const totalPage = 25;
 
     try {
       //Logs in using account email and password
-      let productLists: Array<{}> = [];
       await stockX.login({
         user: stockXUserName,
         password: stockXPassword,
       });
       console.log('Successfully logged in! to Stock X');
-      const productKeywords = ['nike', 'adidas', 'puma', 'vans', 'converse', 'gucci'];
-      await Promise.all(
-        productKeywords.map(async keyword => {
-          let response = await searchProducts(keyword, {
-            limit: 1000,
+
+      let promises = [];
+
+      for (let i: number = 0; i < totalPage; i++) {
+        promises.push(
+          await searchProducts(null, {
+            page: i,
             productCategory: 'sneakers',
-          });
+          })
+        );
+      }
 
-          const mappedResponse = response.map((ele: any) => {
-            return {
-              name: ele.name,
-              brand: keyword,
-              retail: ele.retail,
-              releaseDate: ele.releasDate,
-              image: ele.image,
-              urlKey: ele.urlKey,
-            };
-          });
+      const results = await Promise.all(promises);
 
-          productLists.push(...mappedResponse);
-        })
-      );
-      if (productLists.length > 0) {
-        fs.writeFileSync('productList.json', JSON.stringify(productLists));
-        await ProductsModel.insertMany(productLists);
+      if (results.length > 0) {
+        fs.writeFileSync('productList.json', JSON.stringify(results.flat()));
+        await ProductsModel.insertMany(results.flat());
         return {
           ok: true,
         };
       }
     } catch (error) {
-      return new ApolloError('Failure!');
+      return new Error(error);
     }
   },
 };

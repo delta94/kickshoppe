@@ -7,6 +7,7 @@ const theme = {
     dark: '#272C34',
     facebook: '#385898',
     google: '#f83232',
+    link: '#1890ff',
   },
 };
 

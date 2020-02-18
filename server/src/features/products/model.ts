@@ -9,19 +9,31 @@ import mongoose, { Schema, Document } from 'mongoose';
 export interface IProducts extends Document {
   name: String;
   brand: String;
+  title: String;
+  desc: String;
+  productCategory: String;
+  shoe: String;
   retail: Number;
   releaseDate: String;
+  colorway: String;
   image: String;
   urlKey: String;
+  gender: String;
 }
 
 const ProductsSchema: Schema = new Schema({
   name: String,
   brand: String,
+  title: String,
+  desc: String,
+  productCategory: String,
+  shoe: String,
   retail: Number,
   releaseDate: String,
+  colorway: String,
   image: String,
   urlKey: String,
+  gender: String,
 });
 
 const ProductsModel = mongoose.model<IProducts>('Products', ProductsSchema);

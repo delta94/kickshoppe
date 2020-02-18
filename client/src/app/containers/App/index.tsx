@@ -4,23 +4,35 @@ import { GlobalStyle } from 'styles/global';
 import { ROUTES } from 'enumerations';
 import PrivateRoute from 'app/containers/PrivateRoute';
 import FullPageLoader from 'app/components/Loaders/FullPageLoader';
+import Header from 'app/containers/Header';
 
 const Home = React.lazy(() => import('app/containers/Home'));
 const Dashboard = React.lazy(() => import('app/containers/Dashboard'));
 
+const Layout: React.FC = ({ children }) => {
+  return (
+    <div>
+      <Header />
+      {children}
+    </div>
+  );
+};
+
 const App: React.FC = () => {
   return (
-    <Suspense fallback={<FullPageLoader />}>
-      <Switch>
-        <Route exact path={ROUTES.home}>
-          <Home />
-        </Route>
-        <PrivateRoute exact path={ROUTES.dashboard}>
-          <Dashboard />
-        </PrivateRoute>
-      </Switch>
-      <GlobalStyle />
-    </Suspense>
+    <Layout>
+      <Suspense fallback={<FullPageLoader />}>
+        <Switch>
+          <Route exact path={ROUTES.home}>
+            <Home />
+          </Route>
+          <PrivateRoute exact path={ROUTES.dashboard}>
+            <Dashboard />
+          </PrivateRoute>
+        </Switch>
+        <GlobalStyle />
+      </Suspense>
+    </Layout>
   );
 };
 

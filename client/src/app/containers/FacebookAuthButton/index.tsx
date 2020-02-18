@@ -30,8 +30,12 @@ const FacebookButton = styled(Button)`
   }
 `;
 
-export const FacebookAuthButton: React.FC = ({ children }) => {
-  const { setAuthUser } = useAuthUser();
+interface IFacebookAuthButton {
+  onSuccess?: ({ accessToken, ok }: { accessToken: string; ok: boolean }) => void;
+}
+
+export const FacebookAuthButton: React.FC<IFacebookAuthButton> = ({ children, onSuccess }) => {
+  const { setAuthUserToken: setAuthUser } = useAuthUser();
   const [isLoading, setIsLoading] = React.useState(false);
   const [facebookAuth, { error, data }] = useMutation(FACEBOOK_AUTH);
 
@@ -50,14 +54,18 @@ export const FacebookAuthButton: React.FC = ({ children }) => {
   }, [error]);
 
   const handleResponse = async (response: any) => {
-    console.log('FACEBOOK response', response);
     const { accessToken } = response;
 
-    facebookAuth({
-      variables: {
-        accessToken,
-      },
-    });
+    if (accessToken) {
+      facebookAuth({
+        variables: {
+          accessToken,
+        },
+      });
+      if (onSuccess) {
+        onSuccess({ accessToken, ok: true });
+      }
+    }
   };
 
   const handleClick = (event: any, renderProps: any) => {

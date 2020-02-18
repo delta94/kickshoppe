@@ -11,7 +11,7 @@ import { Title, Subtitle } from 'app/components/Typography';
 import useAuthUser from 'hooks/useAuthUser';
 
 export const LoginForm: React.FC = () => {
-  const { setAuthUser } = useAuthUser();
+  const { setAuthUserToken: setAuthUser } = useAuthUser();
   const { handleSubmit, errors, control } = useForm({
     validationSchema,
     mode: 'onChange',
