@@ -8,7 +8,7 @@ import { BrowserRouter, Route } from 'react-router-dom';
 import { QueryParamProvider } from 'use-query-params';
 import { ThemeProvider } from 'styled-components';
 import { ApolloProvider } from 'react-apollo';
-import { client } from 'apollo';
+import client from 'apollo';
 import theme from 'styles/theme';
 import * as serviceWorker from './serviceWorker';
 import App from 'app/containers/App';

@@ -29,10 +29,6 @@ export const GET_CURRENT_USER_STATE = gql`
 
 export const SET_CURRENT_USER_TOKEN_STATE = gql`
   mutation SetCurrentUserState($token: String) {
-    setCurrentUserState(token: $token) @client {
-      user {
-        token
-      }
-    }
+    setCurrentUserState(token: $token) @client
   }
 `;

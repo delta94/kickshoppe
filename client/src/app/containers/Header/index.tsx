@@ -6,7 +6,7 @@ import React from 'react';
 import { useQuery } from '@apollo/react-hooks';
 import { Badge as AntdBadge, Icon, Menu, Dropdown, Avatar } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
-import { GET_CURRENT_USER_STATE } from 'apollo/state/gql';
+import { GET_CURRENT_USER_STATE } from 'apollo/gql';
 import Container from 'app/components/Container';
 import styled from 'styled-components';
 
@@ -60,7 +60,8 @@ export const Header: React.FC = () => {
     data.getCurrentUserState.user &&
     data.getCurrentUserState.user.token;
 
-  console.log('[HEADER]', data);
+  console.log('[HEADER]: isCurrentUser', isCurrentUser);
+  console.log('[HEADER]: data', data);
 
   const UserDropdown = styled(Dropdown)`
     &:hover {

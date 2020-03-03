@@ -18,7 +18,14 @@ export default {
     { token }: { token: string },
     { cache }: { cache: InMemoryCache }
   ) => {
-    cache.writeData({ data: { user: { token } } });
+    const data = {
+      user: {
+        token,
+        __typename: 'user',
+      },
+    };
+
+    cache.writeData({ data });
     return null;
   },
 };

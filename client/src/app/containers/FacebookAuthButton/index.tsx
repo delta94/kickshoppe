@@ -5,13 +5,13 @@
  */
 
 import React from 'react';
-import { Button } from 'antd';
 import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props';
-import { useMutation } from '@apollo/react-hooks';
 import useAuthUser from 'hooks/useAuthUser';
+import styled from 'styled-components';
+import { Button } from 'antd';
+import { useMutation } from '@apollo/react-hooks';
 import { FACEBOOK_AUTH } from './gql';
 import { FACEBOOK_APP_ID } from 'constants/index';
-import styled from 'styled-components';
 
 const FacebookButton = styled(Button)`
   && {

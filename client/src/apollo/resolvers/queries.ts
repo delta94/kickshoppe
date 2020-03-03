@@ -3,7 +3,7 @@
  */
 
 import { InMemoryCache } from 'apollo-cache-inmemory';
-import { CURRENT_USER_STATE } from 'apollo/state/gql';
+import { CURRENT_USER_STATE } from 'apollo/gql';
 
 export default {
   getCurrentUserState: async (_: any, args: any, context: { cache: InMemoryCache }) => {
@@ -13,6 +13,8 @@ export default {
     });
 
     const user = data && data.user;
+
+    console.log('[RESOLVERS]: getCurrentUserState', user);
 
     return user;
   },

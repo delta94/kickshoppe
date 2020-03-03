@@ -5,11 +5,12 @@
  */
 
 import React from 'react';
-import { Button } from 'antd';
+import { Button, message as antdMessage } from 'antd';
 import { GoogleLogin } from 'react-google-login';
 import { useMutation } from '@apollo/react-hooks';
 import { GOOGLE_AUTH } from './gql';
 import { GOOGLE_CLIENT_ID } from 'constants/index';
+import { GET_CURRENT_USER_STATE } from 'apollo/gql';
 import useAuthUser from 'hooks/useAuthUser';
 import styled from 'styled-components';
 
@@ -35,20 +36,22 @@ interface IGoogleAuthButton {
 }
 
 export const GoogleAuthButton: React.FC<IGoogleAuthButton> = ({ children, onSuccess }) => {
-  const { setAuthUserToken: setAuthUser } = useAuthUser();
+  const { setAuthUserToken } = useAuthUser();
   const [isLoading, setIsLoading] = React.useState(false);
-  const [googleAuth, { error, data }] = useMutation(GOOGLE_AUTH);
+  const [googleAuth, { error, data }] = useMutation(GOOGLE_AUTH, {
+    refetchQueries: [{ query: GET_CURRENT_USER_STATE }],
+  });
 
   React.useEffect(() => {
     if (data && data.googleAuth && data.googleAuth.token) {
       setIsLoading(false);
-      setAuthUser(data.googleAuth.token);
+      setAuthUserToken(data.googleAuth.token);
     }
-  }, [data, setAuthUser]);
+  }, [data]);
 
   React.useEffect(() => {
     if (error) {
-      console.log('GoogleAuthButton error', error);
+      antdMessage.error(error.message);
       setIsLoading(false);
     }
   }, [error]);
