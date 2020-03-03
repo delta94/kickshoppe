@@ -6,13 +6,14 @@ import React from 'react';
 import { useQuery } from '@apollo/react-hooks';
 import { Badge as AntdBadge, Icon, Menu, Dropdown, Avatar } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
-import { GET_CURRENT_USER_STATE } from 'apollo/gql';
+import { CURRENT_USER_STATE } from 'apollo/gql';
 import Container from 'app/components/Container';
 import styled from 'styled-components';
 
 import LoginModal from 'app/containers/LoginModal';
 import useAuthUser from 'hooks/useAuthUser';
 import Spacing from 'app/components/Spacing';
+import UserAvatar from 'app/containers/UserAvatar';
 
 const HeaderContainer = styled.div`
   background: black;
@@ -53,36 +54,8 @@ export const Header: React.FC = () => {
   const { logout } = useAuthUser();
   const [isOpenLoginModal, setIsOpenLoginModal] = React.useState<boolean>(false);
   const [isOpenSignUpModal, setIsOpenSignUpModal] = React.useState<boolean>(false);
-  const { data } = useQuery(GET_CURRENT_USER_STATE);
-  const isCurrentUser =
-    data &&
-    data.getCurrentUserState &&
-    data.getCurrentUserState.user &&
-    data.getCurrentUserState.user.token;
-
-  console.log('[HEADER]: isCurrentUser', isCurrentUser);
-  console.log('[HEADER]: data', data);
-
-  const UserDropdown = styled(Dropdown)`
-    &:hover {
-      cursor: pointer;
-    }
-  `;
-
-  // const client = useApolloClient();
-  const UserAvatar = () => {
-    const menu = (
-      <Menu>
-        <Menu.Item onClick={() => logout()}>Logout</Menu.Item>
-      </Menu>
-    );
-
-    return (
-      <UserDropdown overlay={menu} trigger={['click']}>
-        <Avatar icon={<UserOutlined />} />
-      </UserDropdown>
-    );
-  };
+  const { data } = useQuery(CURRENT_USER_STATE);
+  const isCurrentUser = data && data.user && data.user.token;
 
   const UserIsNotLoggedIn = () => {
     return (

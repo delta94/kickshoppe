@@ -10,7 +10,6 @@ export const CURRENT_USER_STATE = gql`
   query {
     user @client {
       token
-      __typename
     }
   }
 `;
@@ -21,7 +20,6 @@ export const GET_CURRENT_USER_STATE = gql`
     getCurrentUserState @client {
       user {
         token
-        __typename
       }
     }
   }

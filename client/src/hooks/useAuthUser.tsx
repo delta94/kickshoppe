@@ -4,7 +4,7 @@ import {
   LOCAL_STORAGE_TEMPLATE,
   //  ROUTES
 } from 'enumerations';
-import { SET_CURRENT_USER_TOKEN_STATE, GET_CURRENT_USER_STATE } from 'apollo/gql';
+import { SET_CURRENT_USER_TOKEN_STATE } from 'apollo/gql';
 
 const useAuthUser = () => {
   const client = useApolloClient();
