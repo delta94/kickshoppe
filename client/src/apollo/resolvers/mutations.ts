@@ -15,16 +15,45 @@ export default {
   },
   setCurrentUserState: (
     _: any,
-    { token }: { token: string },
+    { accessToken }: { accessToken: string },
     { cache }: { cache: InMemoryCache }
   ) => {
     const data = {
       user: {
-        token,
+        accessToken,
         __typename: 'user',
       },
     };
 
+    cache.writeData({ data });
+    return null;
+  },
+  toggleLoginModal: (
+    _: any,
+    { visible }: { visible: boolean },
+    { cache }: { cache: InMemoryCache }
+  ) => {
+    const data = {
+      loginModal: {
+        visible,
+        __typename: 'loginModal',
+      },
+    };
+
+    cache.writeData({ data });
+    return null;
+  },
+  toggleRegisterModal: (
+    _: any,
+    { visible }: { visible: boolean },
+    { cache }: { cache: InMemoryCache }
+  ) => {
+    const data = {
+      registerModal: {
+        visible,
+        __typename: 'registerModal',
+      },
+    };
     cache.writeData({ data });
     return null;
   },

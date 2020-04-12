@@ -5,14 +5,14 @@
  *
  */
 
-export enum ROUTES {
-  home = '/',
-  dashboard = '/dashboard',
-  page403 = '/403',
-  page404 = '/404',
-  page500 = '/500',
+export enum Routes {
+  HOME = '/',
+  CHECKOUT = '/checkout',
+  PAGE_403 = '/403',
+  PAGE_404 = '/404',
+  PAGE_500 = '/500',
 }
 
-export enum LOCAL_STORAGE_TEMPLATE {
-  token = 'x-token',
+export enum LocalStorage {
+  ACCESS_TOKEN = 'x-token',
 }

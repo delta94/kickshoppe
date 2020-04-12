@@ -8,11 +8,11 @@ import resolvers from 'apollo/resolvers';
 const SERVER_URL = process.env.REACT_APP_SERVER_URL;
 
 const request = async (operation: any) => {
-  const token = await localStorage.getItem('x-token');
-  // set the token in the request header for authorization
+  const accessToken = await localStorage.getItem('x-token');
+  // set the accessToken in the request header for authorization
   operation.setContext({
     headers: {
-      authorization: token ? `Bearer ${token}` : '',
+      authorization: accessToken ? `Bearer ${accessToken}` : '',
     },
   });
 };

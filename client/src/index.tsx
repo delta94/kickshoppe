@@ -11,7 +11,7 @@ import { ApolloProvider } from 'react-apollo';
 import client from 'apollo';
 import theme from 'styles/theme';
 import * as serviceWorker from './serviceWorker';
-import App from 'app/containers/App';
+import App from 'containers/App';
 
 ReactDOM.render(
   <ApolloProvider client={client}>

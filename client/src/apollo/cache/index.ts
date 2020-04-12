@@ -11,7 +11,7 @@ const cache = new InMemoryCache({});
 cache.writeData({
   data: {
     user: {
-      token: null,
+      accessToken: null,
       __typename: 'user',
     },
     cart: [
@@ -20,6 +20,14 @@ cache.writeData({
         __typename: 'product',
       },
     ],
+    loginModal: {
+      visible: false,
+      __typename: 'loginModal',
+    },
+    registerModal: {
+      visible: false,
+      __typename: 'registerModal',
+    },
   },
 });
 

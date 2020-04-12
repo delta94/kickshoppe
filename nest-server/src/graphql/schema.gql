@@ -1,0 +1,84 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+input CreateUserInputDto {
+  username: String!
+  email: String!
+  password: String!
+}
+
+type FacebookAccount {
+  accessToken: String!
+}
+
+type GoogleAccount {
+  accessToken: String
+}
+
+type LoggedInUserDto {
+  _id: String
+  email: String
+  accessToken: String!
+}
+
+type Mutation {
+  register(input: CreateUserInputDto!): UsersModel!
+  login(password: String!, email: String!): LoggedInUserDto!
+}
+
+type ProductsModel {
+  _id: ID!
+  name: String
+  brand: String
+  title: String
+  desc: String
+  productCategory: String
+  shoe: String
+  retail: Int!
+  releaseDate: String
+  colorway: String
+  image: String
+  urlKey: String
+  gender: String
+}
+
+type ProductsPaginationDto {
+  totalCounts: Int!
+  products: [ProductsModel!]!
+}
+
+type Query {
+  users: [UsersModel!]!
+  userById: UsersModel!
+  productsPagination(skip: Int, limit: Int, brand: String, search: String!): ProductsPaginationDto!
+  scrapeStockx: StockxScrapeDto!
+  getCartByUserId: ResponseStatus!
+  addCart: ResponseStatus!
+  deleteCartByUserId: ResponseStatus!
+}
+
+type ResponseStatus {
+  result: ResponseStatusEnum!
+}
+
+enum ResponseStatusEnum {
+  SUCCESS
+  FAILURE
+  UNKNOWN_ERROR
+}
+
+type StockxScrapeDto {
+  ok: Boolean
+  message: String
+}
+
+type UsersModel {
+  _id: ID!
+  username: String
+  password: String
+  email: String
+  imgUrl: String
+  googleAccount: GoogleAccount
+  facebookAcount: FacebookAccount
+}

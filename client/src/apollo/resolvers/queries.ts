@@ -11,11 +11,7 @@ export default {
     const data: any = cache.readQuery({
       query: CURRENT_USER_STATE,
     });
-
     const user = data && data.user;
-
-    console.log('[RESOLVERS]: getCurrentUserState', user);
-
     return user;
   },
 };

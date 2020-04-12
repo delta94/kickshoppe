@@ -24,10 +24,16 @@
 
 # SERVER
 # dependencies
-/server/node_modules
-/server/build
-/server/.env
-/server/.env.local
-/server/.env.development.local
-/server/.env.test.local
-/server/.env.production.local
+/express-server/node_modules
+/express-server/build
+/express-server/.env
+/express-server/.env.local
+/express-server/.env.development.local
+/express-server/.env.test.local
+/express-server/.env.production.local
+
+/nest-server/node_modules
+/nest-server/build
+/nest-server/.env
+/nest-server/.env.local
+/nest-server/.env.dev

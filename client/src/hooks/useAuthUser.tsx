@@ -1,7 +1,7 @@
 import { useApolloClient, useMutation } from '@apollo/react-hooks';
 import { useHistory } from 'react-router-dom';
 import {
-  LOCAL_STORAGE_TEMPLATE,
+  LocalStorage,
   //  ROUTES
 } from 'enumerations';
 import { SET_CURRENT_USER_TOKEN_STATE } from 'apollo/gql';
@@ -11,12 +11,12 @@ const useAuthUser = () => {
   const [setCurrentUserState] = useMutation(SET_CURRENT_USER_TOKEN_STATE);
   const history = useHistory();
 
-  const setAuthUserToken = (token: string) => {
-    if (token) {
-      localStorage.setItem(LOCAL_STORAGE_TEMPLATE.token, token);
+  const setAuthUserToken = (accessToken: string) => {
+    if (accessToken) {
+      localStorage.setItem(LocalStorage.ACCESS_TOKEN, accessToken);
       setCurrentUserState({
         variables: {
-          token,
+          accessToken,
         },
       });
     }
