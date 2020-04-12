@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { MailerService } from '@nest-modules/mailer';
+// import { MailerService } from '@nest-modules/mailer';
 import { compare } from 'bcryptjs';
 import { UsersModel } from '../users/users.model';
 import { UsersService } from '../users/users.service';
-import { InjectModel } from '@nestjs/mongoose';
+// import { InjectModel } from '@nestjs/mongoose';
 
 @Injectable()
 export class AuthService {

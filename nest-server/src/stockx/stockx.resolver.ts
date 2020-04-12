@@ -9,7 +9,7 @@ export class StockxResolver {
 
   @Query(() => StockxScrapeDto)
   async scrapeStockx(): Promise<StockxScrapeDto> {
-    let promises = [];
+    const promises = [];
     const stockXUserName = process.env.STOCKX_USERNAME;
     const stockXPassword = process.env.STOCKX_PASSWORD;
     const TOTAL_PAGE = 30;
@@ -17,7 +17,7 @@ export class StockxResolver {
     try {
       await this.stockxService.loginToStockx(stockXUserName, stockXPassword);
 
-      for (let i: number = 0, n = TOTAL_PAGE; i < n; i++) {
+      for (let i = 0, n = TOTAL_PAGE; i < n; i++) {
         promises.push(
           await this.stockxService.searchStockxProducts(null, {
             page: i,
