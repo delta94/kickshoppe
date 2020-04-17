@@ -11,24 +11,26 @@
 import "@testing-library/jest-dom/extend-expect";
 import "jest-styled-components";
 import React from "react";
-import { ThemeProvider } from 'styled-components';
 import { render } from "@testing-library/react";
 import { MockedProvider, MockedProviderProps } from "@apollo/react-testing";
-import { theme } from 'styles';
-import {{ properCase name }} from "../index";
+// import { UserAvatar } from "../index";
+// import { GET_TODOS, CREATE_TODOS } from '../gql'
 
 const defaultProps = {};
 
-const renderComponent = (props: any) =>
+const renderComponent = ({
+  mocks,
+  props
+}: MockedProviderProps & { props?: any }) =>
   render(
-    <ThemeProvider theme={theme}>
-      <{{ properCase name }} {...defaultComponentProps} {...props} />
-    </ThemeProvider>
+    <MockedProvider mocks={mocks}>
+      <div {...defaultProps} {...props} />
+    </MockedProvider>
   );
 
-describe("<{{ properCase name }} />", () => {
+describe("<UserAvatar />", () => {
   it("should render on load", () => {
-    const {} = renderComponent({});
+    renderComponent({});
     expect(true).toBe(true);
   });
 });

@@ -1,13 +1,14 @@
-import React, { Suspense } from 'react';
+import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 import { GlobalStyle } from 'styles/global';
-import { Routes } from 'enumerations';
+import { Routes } from 'enums/Routes';
 // import PrivateRoute from 'containers/PrivateRoute';
-import FullPageLoader from 'components/Loaders/FullPageLoader';
+// import FullPageLoader from 'components/Loaders/FullPageLoader';
 import Header from 'containers/Header';
-
-const Home = React.lazy(() => import('pages/Home'));
-const Checkout = React.lazy(() => import('pages/Checkout'));
+import Home from 'pages/Home';
+import Checkout from 'pages/Checkout';
+import Bag from 'pages/Bag';
+/* DON'T REMOVE THIS LINE - CODE-GENERATOR: PAGES IMPORT */
 
 const Layout: React.FC = ({ children }) => {
   return (
@@ -21,20 +22,22 @@ const Layout: React.FC = ({ children }) => {
 const App: React.FC = () => {
   return (
     <Layout>
-      <Suspense fallback={<FullPageLoader />}>
-        <Switch>
-          <Route exact path={Routes.HOME}>
-            <Home />
-          </Route>
-          <Route exact path={Routes.CHECKOUT}>
-            <Checkout />
-          </Route>
-          {/* <PrivateRoute exact path={Routes.dashboard}>
+      <Switch>
+        <Route exact path={Routes.HOME}>
+          <Home />
+        </Route>
+        <Route exact path={Routes.CHECKOUT}>
+          <Checkout />
+        </Route>
+        {/* <PrivateRoute exact path={Routes.dashboard}>
             <Dashboard />
           </PrivateRoute> */}
-        </Switch>
-        <GlobalStyle />
-      </Suspense>
+        <Route path={Routes.BAG}>
+          <Bag />
+        </Route>
+        {/* DON'T REMOVE THIS LINE - CODE-GENERATOR: ROUTE */}
+      </Switch>
+      <GlobalStyle />
     </Layout>
   );
 };

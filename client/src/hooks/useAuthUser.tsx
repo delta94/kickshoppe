@@ -3,7 +3,7 @@ import { useHistory } from 'react-router-dom';
 import {
   LocalStorage,
   //  ROUTES
-} from 'enumerations';
+} from 'enums/LocalStorage';
 import { SET_CURRENT_USER_TOKEN_STATE } from 'apollo/gql';
 
 const useAuthUser = () => {
@@ -13,7 +13,7 @@ const useAuthUser = () => {
 
   const setAuthUserToken = (accessToken: string) => {
     if (accessToken) {
-      localStorage.setItem(LocalStorage.ACCESS_TOKEN, accessToken);
+      localStorage.setItem(LocalStorage.X_TOKEN, accessToken);
       setCurrentUserState({
         variables: {
           accessToken,

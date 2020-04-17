@@ -1,11 +1,11 @@
 /*
- * VALIDATIONS 
+ * VALIDATIONS
  * Object schema validation
  * @see https://github.com/jquense/yup
  */
 
 import * as yup from 'yup';
-import { fieldNames } from './enumerations'
+import { fieldNames } from './enums';
 
 export const validationSchema = yup.object().shape({
   [fieldNames.firstName]: yup

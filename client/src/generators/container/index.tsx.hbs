@@ -21,11 +21,13 @@ import {
 import { useHistory, useLocation, useParams, useRouteMatch } from 'react-router-dom'
 {{/if}}
 {{#if wantFormHooks}}
-import { useForm } from 'react-hook-form'
+import { Form } from 'semantic-ui-react';
+import { useForm, ErrorMessage, Controller } from 'react-hook-form'
+import Button from 'components/Button';
+import Input from 'components/Input';
 import { validationSchema } from './validations'
 import { FieldNames } from './enums'
 import { {{properCase name }}Props } from './interfaces'
-import ErrorMessage from 'components/ErrorMessage';
 {{/if}}
 import { 
   GET_{{constantCase name}},
@@ -105,7 +107,6 @@ const Form = () => {
       [FieldNames.FIRST_NAME]: "bill",
       [FieldNames.LAST_NAME]: "luo",
       [FieldNames.PASSWORD]: '123123123',
-      [FieldNames.CONFIRM_PASSWORD]: '123123123',
       [FieldNames.EMAIL]: "bluebill1049@hotmail.com",
       [FieldNames.WEBSITE]: 'www.google.com',
     }
@@ -120,45 +121,82 @@ const Form = () => {
   });
 
   return (
-    <form onSubmit={onSubmit}>
-      <input
-        name={FieldNames.FIRST_NAME}
-        placeholder="First Name"
-        ref={register}
-      />
-      <ErrorMessage errors={formErrors} name={FieldNames.FIRST_NAME} />
-      <input
-        name={FieldNames.LAST_NAME}
-        placeholder="Last Name"
-        ref={register}
-      />
-      <ErrorMessage errors={formErrors} name={FieldNames.LAST_NAME} />
-      <input
-        name={FieldNames.PASSWORD}
-        placeholder="Password"
-        ref={register}
-      />
-      <ErrorMessage errors={formErrors} name={FieldNames.PASSWORD} />
-      <input
-        name={FieldNames.CONFIRM_PASSWORD}
-        placeholder="Confirm Password"
-        ref={register}
-      />
-      <ErrorMessage errors={formErrors} name={FieldNames.CONFIRM_PASSWORD} />
-      <input
-        name={FieldNames.EMAIL}
-        placeholder="Email"
-        ref={register}
-      />
-      <ErrorMessage errors={formErrors} name={FieldNames.EMAIL} />
-      <input
-        name={FieldNames.WEBSITE}
-        placeholder="Website"
-        ref={register}
-      />
-      <ErrorMessage errors={formErrors} name={FieldNames.WEBSITE} />
-      <button type="submit">Submit</button>
-    </form>
+    <Form onSubmit={onSubmit}>
+      <Form.Field>
+        <Controller
+          as={
+            <Input
+              data-testid="input-first-name"
+              label="First Name"
+              error={!!formErrors[FieldNames.FIRST_NAME]}
+              helper={<ErrorMessage errors={formErrors} name={FieldNames.FIRST_NAME} />}
+            />
+          }
+          name={FieldNames.FIRST_NAME}
+          control={control}
+        />
+      </Form.Field>
+      <Form.Field>
+        <Controller
+          as={
+            <Input
+              data-testid="input-last-name"
+              label="Last Name"
+              error={!!formErrors[FieldNames.LAST_NAME]}
+              helper={<ErrorMessage errors={formErrors} name={FieldNames.LAST_NAME} />}
+            />
+          }
+          name={FieldNames.LAST_NAME}
+          control={control}
+        />
+      </Form.Field>
+      <Form.Field>
+        <Controller
+          as={
+            <Input
+              data-testid="input-password"
+              label="Password"
+              error={!!formErrors[FieldNames.PASSWORD]}
+              helper={<ErrorMessage errors={formErrors} name={FieldNames.PASSWORD} />}
+            />
+          }
+          name={FieldNames.PASSWORD}
+          type='password'
+          control={control}
+        />
+      </Form.Field>
+      <Form.Field>
+        <Controller
+          as={
+            <Input
+              data-testid="input-email"
+              label="Email"
+              error={!!formErrors[FieldNames.EMAIL]}
+              helper={<ErrorMessage errors={formErrors} name={FieldNames.EMAIL} />}
+            />
+          }
+          name={FieldNames.EMAIL}
+          control={control}
+        />
+      </Form.Field>
+      <Form.Field>
+        <Controller
+          as={
+            <Input
+              data-testid="input-first-name"
+              label="Website"
+              error={!!formErrors[FieldNames.WEBSITE]}
+              helper={<ErrorMessage errors={formErrors} name={FieldNames.WEBSITE} />}
+            />
+          }
+          name={FieldNames.WEBSITE}
+          control={control}
+        />
+      </Form.Field>
+      <Button primary type="submit">
+        Submit
+      </Button>
+    </Form>
   )
   
 }

@@ -8,27 +8,27 @@ import { InMemoryCache } from 'apollo-cache-inmemory';
 const cache = new InMemoryCache({});
 
 // Initialise Cache
-cache.writeData({
-  data: {
-    user: {
-      accessToken: null,
-      __typename: 'user',
-    },
-    cart: [
-      {
-        productId: null,
-        __typename: 'product',
-      },
-    ],
-    loginModal: {
-      visible: false,
-      __typename: 'loginModal',
-    },
-    registerModal: {
-      visible: false,
-      __typename: 'registerModal',
-    },
+const data = {
+  user: {
+    accessToken: null,
+    __typename: 'user',
   },
-});
+  cart: [
+    {
+      productId: null,
+      __typename: 'product',
+    },
+  ],
+  loginModal: {
+    visible: false,
+    __typename: 'loginModal',
+  },
+  registerModal: {
+    visible: false,
+    __typename: 'registerModal',
+  },
+};
+
+cache.writeData({ data });
 
 export default cache;

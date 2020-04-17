@@ -9,12 +9,13 @@ import { useDebouncedCallback } from 'use-debounce';
 import { useForm, Controller } from 'react-hook-form';
 import { useQueryParams, StringParam, NumberParam } from 'use-query-params';
 import { Row, Card, Input, Pagination, Menu, Dropdown, Button } from 'antd';
-import { GET_PRODUCT_PAGINATION } from './gql';
 import { IProduct } from 'interfaces';
 import FullPageLoader from 'components/Loaders/FullPageLoader';
 import ProductDetailModal from 'containers/ProductDetailModal';
 import Spacing from 'components/Spacing';
 import Col from 'components/Col';
+import { GET_PRODUCT_PAGINATION } from './gql';
+
 const { Meta } = Card;
 const { Search } = Input;
 
@@ -70,8 +71,6 @@ export const ProductPagination: React.FC = () => {
   const products = data && data.productsPagination && data.productsPagination.products;
   const totalCounts = data && data.productPagination && data.productPagination.totalCounts;
 
-  console.log({ data });
-
   const [debouncedGetProductPagination] = useDebouncedCallback(({ search, brand, limit, skip }) => {
     getProductPagination({
       variables: {
@@ -119,7 +118,14 @@ export const ProductPagination: React.FC = () => {
       limit: queryState.pageSize,
       skip: queryState.pageSize > 1 ? queryState.pageSize * (queryState.currentPage - 1) : 0,
     });
-  }, [queryState.search, queryState.brand, queryState.currentPage, queryState.pageSize]);
+  }, [
+    queryState.search,
+    queryState.brand,
+    queryState.currentPage,
+    queryState.pageSize,
+    debouncedGetProductPagination,
+    setQueryParams,
+  ]);
 
   const onFormSubmit = (values: any) => {
     const { search } = values;
@@ -134,7 +140,7 @@ export const ProductPagination: React.FC = () => {
     setQueryState({
       ...queryState,
       currentPage: current,
-      pageSize: pageSize,
+      pageSize,
     });
   };
 
@@ -145,7 +151,7 @@ export const ProductPagination: React.FC = () => {
     });
   };
 
-  //TODO: move to its own component
+  // TODO: move to its own component
 
   const BrandsDropdownMenu = (props: BrandsDropdownMenuProps) => {
     const { brandNames = ['nike', 'adidas', 'puma', 'converse', 'vans'] } = props;

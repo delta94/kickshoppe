@@ -9,7 +9,7 @@ import { useMutation } from '@apollo/react-hooks';
 import { Input, Button, message as antdMessage, Modal } from 'antd';
 import { useForm, Controller } from 'react-hook-form';
 import { validationSchema } from './validations';
-import { fieldNames } from './enumerations';
+import { fieldNames } from './enums';
 import { LOGIN } from './gql';
 import { TOGGLE_REGISTER_MODAL } from 'apollo/gql/modals';
 import ErrorMessage from 'components/ErrorMessage';

@@ -1,5 +1,5 @@
-import mutations from 'apollo/resolvers/mutations';
-import queries from 'apollo/resolvers/queries';
+import mutations from 'apollo/resolvers/mutations/index';
+import queries from 'apollo/resolvers/queries/index';
 
 export const resolvers = {
   Mutation: mutations,

@@ -9,9 +9,6 @@ import { useMutation, useLazyQuery } from '@apollo/react-hooks';
 import { useDebouncedCallback } from 'use-debounce';
 import { Input, Button, message as antdMessage, Modal } from 'antd';
 import { useForm, Controller } from 'react-hook-form';
-import { validationSchema } from './validations';
-import { fieldNames } from './enumerations';
-import { REGISTER_USER, USER_NAME_AUTOCOMPLETE } from './gql';
 import { TOGGLE_LOGIN_MODAL } from 'apollo/gql/modals';
 import Message from 'components/Message';
 import ErrorMessage from 'components/ErrorMessage';
@@ -19,6 +16,10 @@ import Spacing from 'components/Spacing';
 import useAuthUser from 'hooks/useAuthUser';
 import GoogleAuthButton from 'containers/GoogleAuthButton';
 import FacebookAuthButton from 'containers/FacebookAuthButton';
+import { REGISTER_USER, USER_NAME_AUTOCOMPLETE } from './gql';
+import { fieldNames } from './enums';
+import { validationSchema } from './validations';
+
 const { Search } = Input;
 
 interface IRegisterModal {
@@ -50,7 +51,7 @@ export const RegisterModal: React.FC<IRegisterModal> = ({ visible = false, onClo
   const userNameValue = watch(fieldNames.userName);
 
   React.useEffect(() => {
-    if (!!userNameValue) {
+    if (userNameValue) {
       debouncedCallback(userNameValue);
     }
   }, [userNameValue]);

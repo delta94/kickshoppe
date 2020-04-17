@@ -1,13 +1,12 @@
 import React from 'react';
-import { Row, Card, Button } from 'antd';
+import { Row, Card } from 'antd';
 import Payment from 'containers/Payment';
 import Col from 'components/Col';
 import Container from 'components/Container';
-import styled from 'styled-components';
 import Spacing from 'components/Spacing';
 
 const Checkout = () => {
-  //TODO: get detail in clientState etc No. of items
+  // TODO: get detail in clientState etc No. of items
 
   const ShippingAndBilling = () => {
     return (
