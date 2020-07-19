@@ -9,7 +9,7 @@ import { useDebouncedCallback } from 'use-debounce';
 import { useForm, Controller } from 'react-hook-form';
 import { useQueryParams, StringParam, NumberParam } from 'use-query-params';
 import { Row, Card, Input, Pagination, Menu, Dropdown, Button } from 'antd';
-import { IProduct } from 'interfaces';
+import { ProductProps } from 'interfaces/ProductProps';
 import FullPageLoader from 'components/Loaders/FullPageLoader';
 import ProductDetailModal from 'containers/ProductDetailModal';
 import Spacing from 'components/Spacing';
@@ -37,20 +37,7 @@ export interface BrandsDropdownMenuProps {
 
 export const ProductPagination: React.FC = () => {
   const { handleSubmit, control } = useForm({});
-  const [productState, setProductState] = React.useState<IProduct>({
-    id: '',
-    name: '',
-    brand: '',
-    title: '',
-    desc: '',
-    productCategory: '',
-    shoe: '',
-    retail: 0,
-    releaseDate: '',
-    colorway: '',
-    image: '',
-    gender: '',
-  });
+  const [productState, setProductState] = React.useState<ProductProps>({});
   const [isShowModal, setIsShowModal] = React.useState(false);
   const [queryState, setQueryState] = React.useState<IUseQueryState>({
     search: '',
@@ -83,17 +70,17 @@ export const ProductPagination: React.FC = () => {
   }, 1000);
 
   React.useEffect(() => {
-    if (productState && productState.id) {
+    if (productState && productState._id) {
       const filterProduct = products.find((ele: any) => {
-        return ele._id === productState.id;
+        return ele._id === productState._id;
       });
 
       setProductState({
-        id: filterProduct && filterProduct._id,
+        _id: filterProduct && filterProduct._id,
         ...filterProduct,
       });
     }
-  }, [productState.id]);
+  }, [productState._id]);
 
   React.useEffect(() => {
     setQueryState({
@@ -223,7 +210,7 @@ export const ProductPagination: React.FC = () => {
                   onClick={() => {
                     setProductState({
                       ...productState,
-                      id: product._id,
+                      _id: product._id,
                     });
                     setIsShowModal(true);
                   }}

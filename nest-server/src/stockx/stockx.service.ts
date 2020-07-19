@@ -11,6 +11,7 @@ import { ProductsModel } from 'src/products/products.model';
 import StockxAPI from 'stockx-api';
 
 class StockXConstructor {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   constructor(...args: any) {}
 }
 @Injectable()
@@ -56,7 +57,7 @@ export class StockxService {
     const { Product } = body;
     const variants = body.Product.children;
 
-    for (let key in variants) {
+    for (const key in variants) {
       variantArray.push({
         size: variants[key].shoeSize,
         uuid: key,

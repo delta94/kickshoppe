@@ -9,7 +9,7 @@ import styled from 'styled-components';
 import { useQuery, useMutation } from '@apollo/react-hooks';
 import { format } from 'date-fns';
 import { Button, Modal } from 'antd';
-import { IProduct } from 'interfaces';
+import { ProductProps } from 'interfaces/ProductProps';
 import { CURRENT_USER_STATE } from 'apollo/gql';
 import { TOGGLE_LOGIN_MODAL } from 'apollo/gql/modals';
 
@@ -30,14 +30,14 @@ export const ProductDetailModal = ({
   visible,
   onCancel,
 }: {
-  product: IProduct;
+  product: ProductProps;
   visible: boolean;
   onCancel: () => void;
 }) => {
   const [toggleLoginModal] = useMutation(TOGGLE_LOGIN_MODAL);
   const { data } = useQuery(CURRENT_USER_STATE);
   const isCurrentUser = !!data && !!data.user && !!data.user.accessToken;
-  const { id, name, brand, title, retail, releaseDate, colorway, image, gender } = product;
+  const { _id, name, brand, title, retail, releaseDate, colorway, image, gender } = product;
 
   console.log('isCurrentUser', isCurrentUser);
 
@@ -53,7 +53,7 @@ export const ProductDetailModal = ({
   return (
     <Modal
       centered
-      key={`${id}`}
+      key={`${_id}`}
       footer={[
         <Button key="back" onClick={onCancel}>
           Cancel
